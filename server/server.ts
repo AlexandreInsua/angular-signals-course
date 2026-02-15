@@ -1,5 +1,4 @@
-import * as express from 'express';
-import { Application } from 'express';
+import express, { Application } from 'express';
 import { createCourse } from './create-course.route';
 import { deleteCourse } from './delete-course.route';
 import { getAllCourses, getCourseById } from './get-courses.route';
@@ -10,7 +9,7 @@ import { searchLessons } from './search-lessons.route';
 
 const bodyParser = require('body-parser');
 
-const app: Application = express.default();
+const app: Application = express();
 
 app.use(bodyParser.json());
 

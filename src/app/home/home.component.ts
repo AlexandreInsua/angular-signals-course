@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { CoursesCardListComponent } from '../courses-card-list/courses-card-list.component';
+import { Course, sortCoursesBySeqNo } from '../models/course.model';
+import { CoursesService } from '../services/courses.service';
 
 @Component({
   selector: 'home',
@@ -9,4 +11,38 @@ import { CoursesCardListComponent } from '../courses-card-list/courses-card-list
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {}
+export class HomeComponent {
+  coursesService = inject(CoursesService);
+
+  private courses = signal<Course[]>([]);
+
+  baginnerCouses = computed(() =>
+    this.courses().filter((course) => course.category === 'BEGINNER'),
+  );
+
+  advancedCouses = computed(() =>
+    this.courses().filter((course) => course.category === 'ADVANCED'),
+  );
+  constructor() {
+    this.loadAllCourses();
+  }
+
+  async loadAllCourses() {
+    try {
+      const courses = await this.coursesService.loadAllCourses();
+
+      this.courses.set(courses.sort(sortCoursesBySeqNo));
+    } catch (error) {
+      alert('Failed to load courses. Please try again later.');
+      console.error('Error loading courses:', error);
+    }
+  }
+
+  refreshCourse(updatedCourse: Course) {
+    const courses = this.courses();
+    const newCourses = courses.map((course) =>
+      course.id === updatedCourse.id ? updatedCourse : course,
+    );
+    this.courses.set(newCourses);
+  }
+}

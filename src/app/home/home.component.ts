@@ -45,4 +45,16 @@ export class HomeComponent {
     );
     this.courses.set(newCourses);
   }
+
+  async deleteCourse(courseId: string) {
+    try {
+      const result = await this.coursesService.deleteCourse(courseId);
+      this.courses.update((courses) =>
+        courses.filter((course) => course.id !== courseId),
+      );
+    } catch (error) {
+      console.error('Error deleting course:', error);
+      alert('Failed to delete course. Please try again later.');
+    }
+  }
 }

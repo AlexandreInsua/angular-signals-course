@@ -33,8 +33,8 @@ export class CoursesService {
     );
   }
 
-  async deleteCourse(courseId: number): Promise<void> {
-    await firstValueFrom(
+  async deleteCourse(courseId: string): Promise<Partial<Course>> {
+    return await firstValueFrom(
       this.http.delete(`${this.coursesEndpoint}/${courseId}`),
     );
   }

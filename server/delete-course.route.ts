@@ -12,5 +12,5 @@ export function deleteCourse(req: Request, res: Response) {
 
   setTimeout(() => {
     res.status(200).json({ id });
-  }, 1500);
+  }, 300);
 }

@@ -1,6 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { CoursesCardListComponent } from '../courses-card-list/courses-card-list.component';
+import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
 import { Course, sortCoursesBySeqNo } from '../models/course.model';
 import { CoursesService } from '../services/courses.service';
 
@@ -12,6 +14,7 @@ import { CoursesService } from '../services/courses.service';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
+  dialog = inject(MatDialog);
   coursesService = inject(CoursesService);
 
   private courses = signal<Course[]>([]);
@@ -46,9 +49,20 @@ export class HomeComponent {
     this.courses.set(newCourses);
   }
 
+  async createCourse() {
+    const newCourse = await openEditCourseDialog(this.dialog, {
+      mode: 'create',
+      title: 'Create Course',
+    });
+
+    this.courses.update((courses) => [...courses, newCourse]);
+  }
+
   async deleteCourse(courseId: string) {
     try {
       const result = await this.coursesService.deleteCourse(courseId);
+      // lanzar un toast de éxito
+
       this.courses.update((courses) =>
         courses.filter((course) => course.id !== courseId),
       );

@@ -52,6 +52,19 @@ export class EditCourseDialogComponent {
     if (this.data.mode === 'update') {
       this.sendCourse(this.data?.course!.id, courseProps);
     }
+
+    if (this.data.mode === 'create') {
+      this.createCourse(courseProps);
+    }
+  }
+
+  private async createCourse(course: Partial<Course>) {
+    try {
+      const newCourse = await this.courseService.createCourse(course);
+      this.dialogRef.close(newCourse);
+    } catch (error) {
+      console.error('Error creating course:', error);
+    }
   }
 
   private async sendCourse(courseId: string, courseProps: Partial<Course>) {

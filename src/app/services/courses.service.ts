@@ -15,7 +15,10 @@ export class CoursesService {
   coursesEndpoint = `${this.env.apiRoot}/courses`;
 
   async loadAllCourses(): Promise<Course[]> {
-    const courses$ = this.http.get<GetCoursesResponse>(this.coursesEndpoint);
+    const courses$ = this.http.get<GetCoursesResponse>(
+      this.coursesEndpoint,
+      //    { context: new HttpContext().set(SkipLoading, true), }
+    );
     const response = await firstValueFrom(courses$);
 
     return response.courses;

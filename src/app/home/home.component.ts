@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { CoursesCardListComponent } from '../courses-card-list/courses-card-list.component';
 import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
+import { LoadingService } from '../loading/loading.service';
 import { Course, sortCoursesBySeqNo } from '../models/course.model';
 import { CoursesService } from '../services/courses.service';
 
@@ -16,6 +17,7 @@ import { CoursesService } from '../services/courses.service';
 export class HomeComponent {
   dialog = inject(MatDialog);
   coursesService = inject(CoursesService);
+  loadingService = inject(LoadingService);
 
   private courses = signal<Course[]>([]);
 
@@ -33,7 +35,6 @@ export class HomeComponent {
   async loadAllCourses() {
     try {
       const courses = await this.coursesService.loadAllCourses();
-
       this.courses.set(courses.sort(sortCoursesBySeqNo));
     } catch (error) {
       alert('Failed to load courses. Please try again later.');

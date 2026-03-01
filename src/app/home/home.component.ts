@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { CoursesCardListComponent } from '../courses-card-list/courses-card-list.component';
 import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
-import { LoadingService } from '../loading/loading.service';
+import { MessagesService } from '../messages/messages.service';
 import { Course, sortCoursesBySeqNo } from '../models/course.model';
 import { CoursesService } from '../services/courses.service';
 
@@ -17,7 +17,7 @@ import { CoursesService } from '../services/courses.service';
 export class HomeComponent {
   dialog = inject(MatDialog);
   coursesService = inject(CoursesService);
-  loadingService = inject(LoadingService);
+  messagesService = inject(MessagesService);
 
   private courses = signal<Course[]>([]);
 
@@ -37,8 +37,10 @@ export class HomeComponent {
       const courses = await this.coursesService.loadAllCourses();
       this.courses.set(courses.sort(sortCoursesBySeqNo));
     } catch (error) {
-      alert('Failed to load courses. Please try again later.');
-      console.error('Error loading courses:', error);
+      this.messagesService.showMessage({
+        text: 'Failed to load courses. Please try again later.',
+        severity: 'error',
+      });
     }
   }
 
@@ -67,6 +69,10 @@ export class HomeComponent {
       this.courses.update((courses) =>
         courses.filter((course) => course.id !== courseId),
       );
+      this.messagesService.showMessage({
+        text: 'Course deleted successfully',
+        severity: 'success',
+      });
     } catch (error) {
       console.error('Error deleting course:', error);
       alert('Failed to delete course. Please try again later.');

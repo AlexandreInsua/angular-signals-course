@@ -1,33 +1,38 @@
-import {Routes} from '@angular/router';
-import {HomeComponent} from "./home/home.component";
-import {LoginComponent} from "./login/login.component";
-import {LessonsComponent} from "./lessons/lessons.component";
-import {ResourceDemoComponent} from "./resource-demo/resource-demo.component";
-import {LinkedSignalDemoComponent} from "./linked-signal/linked-signal-demo.component";
+import { Routes } from '@angular/router';
+import { isUserAuthenticated } from './guards/auth.guard';
+import { HomeComponent } from './home/home.component';
+import { LessonsComponent } from './lessons/lessons.component';
+import { LinkedSignalDemoComponent } from './linked-signal/linked-signal-demo.component';
+import { LoginComponent } from './login/login.component';
+import { ResourceDemoComponent } from './resource-demo/resource-demo.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [isUserAuthenticated],
   },
   {
-    path: "login",
-    component: LoginComponent
+    path: 'login',
+    component: LoginComponent,
   },
   {
-    path: "lessons",
-    component: LessonsComponent
+    path: 'lessons',
+    component: LessonsComponent,
+    canActivate: [isUserAuthenticated],
   },
   {
-    path:"shopping-cart",
-    component: LinkedSignalDemoComponent
+    path: 'shopping-cart',
+    component: LinkedSignalDemoComponent,
+    canActivate: [isUserAuthenticated],
   },
   {
-    path: "resource-demo",
-    component: ResourceDemoComponent
+    path: 'resource-demo',
+    component: ResourceDemoComponent,
+    canActivate: [isUserAuthenticated],
   },
   {
     path: '**',
-    redirectTo: '/'
-  }
+    redirectTo: '/',
+  },
 ];

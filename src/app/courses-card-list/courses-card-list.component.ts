@@ -22,6 +22,11 @@ export class CoursesCardListComponent {
       title: 'Edit Course',
       course,
     });
+
+    if (!newCourse) {
+      return;
+    }
+
     console.log('Updated course:', newCourse);
     this.courseUpdated.emit(newCourse);
   }

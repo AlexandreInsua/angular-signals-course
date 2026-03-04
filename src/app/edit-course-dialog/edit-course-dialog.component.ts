@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -9,6 +9,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 import { CourseCategoryComboboxComponent } from '../course-category-combobox/course-category-combobox.component';
 import { LoadingIndicatorComponent } from '../loading/loading.component';
+import { CourseCategory } from '../models/course-category.model';
 import { Course } from '../models/course.model';
 import { CoursesService } from '../services/courses.service';
 import { EditCourseDialogData } from './edit-course-dialog.data.model';
@@ -37,6 +38,8 @@ export class EditCourseDialogComponent {
     category: [''],
     iconUrl: [''],
   });
+
+  category = signal<CourseCategory>('BEGINNER');
 
   constructor() {
     this.form.patchValue(this.data?.course ?? {});

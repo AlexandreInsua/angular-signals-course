@@ -58,6 +58,10 @@ export class HomeComponent {
       title: 'Create Course',
     });
 
+    if (!newCourse) {
+      return;
+    }
+
     this.courses.update((courses) => [...courses, newCourse]);
   }
 

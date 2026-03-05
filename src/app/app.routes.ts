@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { courseLessonsResolver } from './course/course-lessons.resolver';
+import { courseResolver } from './course/course.resolver';
 import { isUserAuthenticated } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { LessonsComponent } from './lessons/lessons.component';
@@ -15,6 +17,12 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'courses/:id',
+    loadComponent: () =>
+      import('./course/course.component').then((m) => m.CourseComponent),
+    resolve: { course: courseResolver, lessons: courseLessonsResolver },
   },
   {
     path: 'lessons',

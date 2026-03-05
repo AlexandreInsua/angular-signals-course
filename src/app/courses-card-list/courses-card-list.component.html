@@ -13,7 +13,9 @@
       <p>{{ course.longDescription }}</p>
     </div>
     <div class="course-actions">
-      <button type="button" class="btn">View</button>
+      <button type="button" class="btn" [routerLink]="['courses', course.id]">
+        View
+      </button>
       <button type="button" class="btn" (click)="editCourse(course)">
         Edit
       </button>

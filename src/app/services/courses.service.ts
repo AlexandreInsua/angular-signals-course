@@ -24,6 +24,12 @@ export class CoursesService {
     return response.courses;
   }
 
+  async getCourseById(courseId: string): Promise<Course> {
+    return await firstValueFrom(
+      this.http.get<Course>(`${this.coursesEndpoint}/${courseId}`),
+    );
+  }
+
   async createCourse(course: Partial<Course>): Promise<Course> {
     return await firstValueFrom(
       this.http.post<Course>(this.coursesEndpoint, course),

@@ -14,7 +14,7 @@ export class LessonsService {
   http = inject(HttpClient);
   lessonsEndpoint = `${this.env.apiRoot}/search-lessons`;
 
-  async loadLessonsForCourse(config: {
+  async loadLessons(config: {
     courseId?: string;
     query?: string;
   }): Promise<Lesson[]> {
@@ -28,5 +28,14 @@ export class LessonsService {
       this.http.get<GetLessonsResponse>(this.lessonsEndpoint, { params }),
     );
     return response.lessons;
+  }
+
+  async updateLesson(
+    lessonId: string,
+    changes: Partial<Lesson>,
+  ): Promise<Lesson> {
+    return await firstValueFrom(
+      this.http.put<Lesson>(`${this.env.apiRoot}/lessons/${lessonId}`, changes),
+    );
   }
 }

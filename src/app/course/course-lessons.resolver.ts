@@ -17,5 +17,5 @@ export const courseLessonsResolver: ResolveFn<Lesson[]> = async (
   }
 
   const lessonsService = inject(LessonsService);
-  return await lessonsService.loadLessonsForCourse({ courseId });
+  return await lessonsService.loadLessons({ courseId });
 };

@@ -59,7 +59,7 @@ describe('LessonsService', () => {
 
     // call the method under test. it returns a Promise because the service
     // uses firstValueFrom(...) internally.
-    const promise = service.loadLessonsForCourse({});
+    const promise = service.loadLessons({});
 
     // expectOne will match the outgoing request. it will throw if no
     // request or more than one request is made.
@@ -94,7 +94,7 @@ describe('LessonsService', () => {
 
     const config = { courseId: '200', query: 'angular' };
 
-    const promise = service.loadLessonsForCourse(config);
+    const promise = service.loadLessons(config);
 
     const req = httpMock.expectOne((req) => {
       // make sure both params were attached correctly
@@ -124,7 +124,7 @@ describe('LessonsService', () => {
       },
     ];
 
-    const promise = service.loadLessonsForCourse({ courseId: '300' });
+    const promise = service.loadLessons({ courseId: '300' });
 
     const req = httpMock.expectOne((req) => {
       return (
@@ -152,7 +152,7 @@ describe('LessonsService', () => {
       },
     ];
 
-    const promise = service.loadLessonsForCourse({ query: 'rxjs' });
+    const promise = service.loadLessons({ query: 'rxjs' });
 
     const req = httpMock.expectOne((req) => {
       return (
